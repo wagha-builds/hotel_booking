@@ -1,16 +1,25 @@
 import pandas as pd
 
-df = pd.read_csv("hotels.csv")
+df = pd.read_csv("hotels.csv", dtype={"id": str}) # Loads id values as str data type.
+
 
 class Hotel:
     def __init__(self, hotel_id):
-        pass
+        self.hotel_id = hotel_id
 
     def book(self):
-        pass
+        """Book a hotel by changing its availability to no."""
+        df.loc[df["id"] == self.hotel_id, "available"] = "no"
+        df.to_csv("hotels.csv", index=False) # Overriding the content of hotels.csv and setting index=False so that Python doesn't add another index.
 
     def available(self):
-        pass
+        """Checks if the hotel is available or not."""
+        availability = df.loc[df["id"] == self.hotel_id, "available"].squeeze()
+        if availability == "yes":
+            return True
+        else:
+            return False
+
 
 class ReservationTicket:
     def __init__(self, customer_name, hotel_object):
@@ -19,9 +28,11 @@ class ReservationTicket:
     def generation(self):
         pass
 
+
 print(df)
-id = input("Enter the id of the hotel: ")
-hotel = Hotel(id)
+hotel_ID = input("Enter the id of the hotel: ")
+hotel = Hotel(hotel_ID)
+
 if hotel.available():
     hotel.book()
     name = input("Enter your name: ")
