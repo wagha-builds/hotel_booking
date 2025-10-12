@@ -60,6 +60,20 @@ class SecureCreditCard(CreditCard): # Inheriting the methods of the CreditCard c
             return False
 
 
+class SpaHotel():
+    def __init__(self, customer_name, hotel_object):
+        self.customer_name = customer_name
+        self.hotel = hotel_object
+
+    def booking(self):
+        content = f"""
+                Thank you for your SPA reservation!
+                Here are your SPA booking details:
+                Name: {self.customer_name}
+                Hotel: {self.hotel.name}
+                """
+        return content
+
 
 print(df)
 hotel_ID = input("Enter the id of the hotel: ")
@@ -73,6 +87,10 @@ if hotel.available():
             name = input("Enter your name: ")
             reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
             print(reservation_ticket.generate())
+            spa_package = input("Do you want to book a spa package?")
+            if spa_package == "yes":
+                spa_package = SpaHotel(customer_name=name, hotel_object=hotel)
+                print(spa_package.booking())
         else:
             print("Credit card authentication failed.")
     else:
